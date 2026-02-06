@@ -3,6 +3,8 @@
 use App\Models\Game;
 use App\Models\Team;
 
+use App\Models\User;
+use function Pest\Laravel\actingAs;
 use function Pest\Laravel\assertDatabaseCount;
 use function Pest\Laravel\assertDatabaseHas;
 use function Pest\Laravel\post;
@@ -10,6 +12,8 @@ use function Pest\Laravel\post;
 uses(Illuminate\Foundation\Testing\RefreshDatabase::class);
 
 beforeEach(function () {
+    $this->user = User::factory()->create();
+
     // ValueObject cast'lerimizi de dolaylı yoldan test etmiş oluyoruz
     Team::factory()->create(['name' => 'Manchester City', 'power' => 90]);
     Team::factory()->create(['name' => 'Arsenal', 'power' => 85]);
@@ -18,7 +22,9 @@ beforeEach(function () {
 });
 
 it('can generate a full fixture for 4 teams', function () {
-    post(route('league.generate'))
+    // actingAs ile kullanıcıyı simüle ediyoruz
+    actingAs($this->user)
+        ->post(route('league.generate'))
         ->assertRedirect();
 
     // 4 takım, çift devre (Double Round Robin) = 12 maç
@@ -29,10 +35,12 @@ it('can generate a full fixture for 4 teams', function () {
 });
 
 it('updates standings correctly after simulating a week', function () {
-    post(route('league.generate'));
+    actingAs($this->user)
+        ->post(route('league.generate'));
 
     // 1. haftayı simüle et
-    post(route('league.simulate.week', ['week' => 1]))
+    actingAs($this->user)
+        ->post(route('league.simulate.week', ['week' => 1]))
         ->assertRedirect();
 
     // En az 2 maç oynanmış olmalı
