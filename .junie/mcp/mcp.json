@@ -1,0 +1,22 @@
+{
+    "mcpServers": {
+        "laravel-boost": {
+            "command": "/Users/serter/Library/Application",
+            "args": [
+                "Support/Herd/bin/php84",
+                "/Users/serter/Herd/insider-one-champions-league/artisan",
+                "boost:mcp"
+            ]
+        },
+        "herd": {
+            "command": "/Users/serter/Library/Application",
+            "args": [
+                "Support/Herd/bin/php84",
+                "/Applications/Herd.app/Contents/Resources/herd-mcp.phar"
+            ],
+            "env": {
+                "SITE_PATH": "/Users/serter/Herd/insider-one-champions-league"
+            }
+        }
+    }
+}
