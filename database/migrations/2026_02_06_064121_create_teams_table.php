@@ -14,14 +14,14 @@ return new class extends Migration
         Schema::create('teams', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
-            $table->integer('power')->default(0)->index();
-            $table->integer('played')->default(0);
-            $table->integer('won')->default(0);
-            $table->integer('drawn')->default(0);
-            $table->integer('lost')->default(0);
+            $table->unsignedTinyInteger('power')->default(0)->index()->comment('0-100');
+            $table->unsignedTinyInteger('played')->default(0);
+            $table->unsignedTinyInteger('won')->default(0);
+            $table->unsignedTinyInteger('drawn')->default(0);
+            $table->unsignedTinyInteger('lost')->default(0);
             $table->integer('points')->default(0)->index();
-            $table->integer('goals_for')->default(0);
-            $table->integer('goals_against')->default(0);
+            $table->unsignedInteger('goals_for')->default(0);
+            $table->unsignedInteger('goals_against')->default(0);
             $table->integer('goal_difference')->default(0);
 
             $table->timestamps();
